@@ -24,7 +24,7 @@ export const COLORS: ThemeColors = {
   black: '#252F40',
   white: '#FFFFFF',
 
-  dark: '#252F40',
+  dark: '#E6E6FA',
   light: '#E9ECEF',
 
   // gray variations
@@ -77,7 +77,7 @@ export const COLORS: ThemeColors = {
 };
 
 export const GRADIENTS: ThemeGradients = {
-  primary: ['#FF0080', '#7928CA'],
+  primary: ['#EABE3F', '#53f736'],
   secondary: ['#A8B8D8', '#627594'],
   info: ['#21D4FD', '#2152FF'],
   success: ['#358C0F', '#358C0F'],
@@ -85,7 +85,7 @@ export const GRADIENTS: ThemeGradients = {
   danger: ['#FF667C', '#EA0606'],
 
   light: ['#EBEFF4', '#CED4DA'],
-  dark: ['#3A416F', '#141727'],
+  dark: ['#EABE3F', '##EABE3F'],
 
   white: [String(COLORS.white), '#EBEFF4'],
   black: [String(COLORS.black), '#141727'],

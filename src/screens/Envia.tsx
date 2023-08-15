@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {
-  StyleSheet, View,Alert,Image
+  StyleSheet, View,Alert,Image,ImageBackground
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,7 +10,8 @@ import {useData, useTheme, useTranslation} from '../hooks/';
 
 const Envia = () => {
   return (
-    <View style={{backgroundColor:'#fff',flex:1}}> 
+    <ImageBackground source={require('../assets/images/bg.jpeg')} style={{flex:1}}> 
+    <View > 
 
    
 <View style={{margin:30}}> 
@@ -46,6 +47,7 @@ const Envia = () => {
   </View>
     
    </View>
+   </ImageBackground>
   )
 }
 const styles = StyleSheet.create({

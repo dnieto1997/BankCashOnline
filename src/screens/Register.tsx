@@ -1,55 +1,78 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {Linking, Platform} from 'react-native';
-import {useNavigation} from '@react-navigation/core';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Linking, Platform,ImageBackground } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 
-import {useData, useTheme, useTranslation} from '../hooks/';
+import { useData, useTheme, useTranslation } from '../hooks/';
 import * as regex from '../constants/regex';
-import {Block, Button, Input, Image, Text, Checkbox} from '../components/';
+import { Block, Button, Input, Image, Text, Checkbox } from '../components/';
 
 const isAndroid = Platform.OS === 'android';
 
 interface IRegistration {
   name: string;
+  lastname: string;
+  numdoc: string;
   email: string;
   password: string;
+  country: string;
+  city: string;
+  phone:string;
+  address: string;
   agreed: boolean;
 }
 interface IRegistrationValidation {
   name: boolean;
+  lastname: boolean;
+  numdoc: boolean;
   email: boolean;
   password: boolean;
+  country: boolean;
+  city: boolean;
+  phone:boolean;
+  address: boolean;
   agreed: boolean;
 }
 
 const Register = () => {
-  const {isDark} = useData();
-  const {t} = useTranslation();
+  const { isDark } = useData();
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const [isValid, setIsValid] = useState<IRegistrationValidation>({
     name: false,
+    lastname: false,
+    numdoc: false,
     email: false,
     password: false,
-    agreed: false,
+    country: false,
+    city: false,
+    phone: false,
+    address: false,
+    agreed: false
   });
   const [registration, setRegistration] = useState<IRegistration>({
     name: '',
+    lastname: '',
+    numdoc: '',
     email: '',
     password: '',
-    agreed: false,
+    country: '',
+    city: '',
+    phone: '',
+    address: '',
+    agreed: false
   });
-  const {assets, colors, gradients, sizes} = useTheme();
+  const { assets, colors, gradients, sizes } = useTheme();
 
   const handleChange = useCallback(
     (value) => {
-      setRegistration((state) => ({...state, ...value}));
+      setRegistration((state) => ({ ...state, ...value }));
     },
     [setRegistration],
   );
 
   const handleSignUp = useCallback(() => {
     if (!Object.values(isValid).includes(false)) {
-      /** send/save registratin data */
-      console.log('handleSignUp', registration);
+
     }
   }, [isValid, registration]);
 
@@ -59,20 +82,30 @@ const Register = () => {
       name: regex.name.test(registration.name),
       email: regex.email.test(registration.email),
       password: regex.password.test(registration.password),
+      lastname: regex.name.test(registration.lastname),
+      numdoc: regex.numdoc.test(registration.numdoc),
+      country: regex.country.test(registration.country),
+      city: regex.city.test(registration.city),
+      phone: regex.phone.test(registration.phone),
+      address: regex.address.test(registration.address),
       agreed: registration.agreed,
+
+   
     }));
   }, [registration, setIsValid]);
 
   return (
+
+    <ImageBackground source={require('../assets/images/bg.jpeg')} style={{flex:1}}>
     <Block safe marginTop={sizes.md}>
       <Block paddingHorizontal={sizes.s}>
-        <Block flex={0} style={{zIndex: 0}}>
+        <Block flex={0} style={{ zIndex: 0 }}>
           <Image
             background
             resizeMode="cover"
             padding={sizes.sm}
             radius={sizes.cardRadius}
-            source={assets.background}
+            
             height={sizes.height * 0.3}>
             <Button
               row
@@ -85,7 +118,7 @@ const Register = () => {
                 height={18}
                 color={colors.white}
                 source={assets.arrow}
-                transform={[{rotate: '180deg'}]}
+                transform={[{ rotate: '180deg' }]}
               />
               <Text p white marginLeft={sizes.s}>
                 {t('common.goBack')}
@@ -111,42 +144,13 @@ const Register = () => {
             <Block
               blur
               flex={0}
-              intensity={90}
+              intensity={150}
               radius={sizes.sm}
               overflow="hidden"
               justify="space-evenly"
               tint={colors.blurTint}
               paddingVertical={sizes.sm}>
-              <Text p semibold center>
-                {t('register.subtitle')}
-              </Text>
-              {/* social buttons */}
-              <Block row center justify="space-evenly" marginVertical={sizes.m}>
-                <Button outlined gray shadow={!isAndroid}>
-                  <Image
-                    source={assets.facebook}
-                    height={sizes.m}
-                    width={sizes.m}
-                    color={isDark ? colors.icon : undefined}
-                  />
-                </Button>
-                <Button outlined gray shadow={!isAndroid}>
-                  <Image
-                    source={assets.apple}
-                    height={sizes.m}
-                    width={sizes.m}
-                    color={isDark ? colors.icon : undefined}
-                  />
-                </Button>
-                <Button outlined gray shadow={!isAndroid}>
-                  <Image
-                    source={assets.google}
-                    height={sizes.m}
-                    width={sizes.m}
-                    color={isDark ? colors.icon : undefined}
-                  />
-                </Button>
-              </Block>
+
               <Block
                 row
                 flex={0}
@@ -162,9 +166,7 @@ const Register = () => {
                   start={[0, 1]}
                   gradient={gradients.divider}
                 />
-                <Text center marginHorizontal={sizes.s}>
-                  {t('common.or')}
-                </Text>
+
                 <Block
                   flex={0}
                   height={1}
@@ -179,11 +181,31 @@ const Register = () => {
                 <Input
                   autoCapitalize="none"
                   marginBottom={sizes.m}
-                  label={t('common.name')}
-                  placeholder={t('common.namePlaceholder')}
+                  label='Names'
+                  placeholder='Names'
                   success={Boolean(registration.name && isValid.name)}
                   danger={Boolean(registration.name && !isValid.name)}
-                  onChangeText={(value) => handleChange({name: value})}
+                  onChangeText={(value) => handleChange({ name: value })}
+                />
+
+                <Input
+                  autoCapitalize="none"
+                  marginBottom={sizes.m}
+                  label='Last Names'
+                  placeholder='Last Names'
+                  success={Boolean(registration.lastname && isValid.lastname)}
+                  danger={Boolean(registration.lastname && !isValid.lastname)}
+                  onChangeText={(value) => handleChange({ lastname: value })}
+                />
+                <Input
+                   
+                  autoCapitalize="none"
+                  marginBottom={sizes.m}
+                  label='ID Number'
+                  placeholder='ID Number'
+                  success={Boolean(registration.numdoc && isValid.numdoc)}
+                  danger={Boolean(registration.numdoc && !isValid.numdoc)}
+                  onChangeText={(value) => handleChange({ numdoc: value })}
                 />
                 <Input
                   autoCapitalize="none"
@@ -193,7 +215,7 @@ const Register = () => {
                   placeholder={t('common.emailPlaceholder')}
                   success={Boolean(registration.email && isValid.email)}
                   danger={Boolean(registration.email && !isValid.email)}
-                  onChangeText={(value) => handleChange({email: value})}
+                  onChangeText={(value) => handleChange({ email: value })}
                 />
                 <Input
                   secureTextEntry
@@ -201,9 +223,48 @@ const Register = () => {
                   marginBottom={sizes.m}
                   label={t('common.password')}
                   placeholder={t('common.passwordPlaceholder')}
-                  onChangeText={(value) => handleChange({password: value})}
+                  onChangeText={(value) => handleChange({ password: value })}
                   success={Boolean(registration.password && isValid.password)}
                   danger={Boolean(registration.password && !isValid.password)}
+                />
+
+
+                <Input
+                  autoCapitalize="none"
+                  marginBottom={sizes.m}
+                  label='CellPhone'
+                  placeholder='CellPhone'
+                  success={Boolean(registration.phone && isValid.phone)}
+                  danger={Boolean(registration.phone && !isValid.phone)}
+                  onChangeText={(value) => handleChange({ phone: value })}
+                />
+
+                <Input
+                  autoCapitalize="none"
+                  marginBottom={sizes.m}
+                  label='Country'
+                  placeholder='Country'
+                  success={Boolean(registration.country && isValid.country)}
+                  danger={Boolean(registration.country && !isValid.country)}
+                  onChangeText={(value) => handleChange({ country: value })}
+                />
+                  <Input
+                  autoCapitalize="none"
+                  marginBottom={sizes.m}
+                  label='City'
+                  placeholder='City'
+                  success={Boolean(registration.city && isValid.city)}
+                  danger={Boolean(registration.city && !isValid.city)}
+                  onChangeText={(value) => handleChange({ city: value })}
+                />
+                  <Input
+                  autoCapitalize="none"
+                  marginBottom={sizes.m}
+                  label='Address'
+                  placeholder='Address'
+                  success={Boolean(registration.address && isValid.address)}
+                  danger={Boolean(registration.address && !isValid.address)}
+                  onChangeText={(value) => handleChange({ address: value })}
                 />
               </Block>
               {/* checkbox terms */}
@@ -211,7 +272,7 @@ const Register = () => {
                 <Checkbox
                   marginRight={sizes.sm}
                   checked={registration?.agreed}
-                  onPress={(value) => handleChange({agreed: value})}
+                  onPress={(value) => handleChange({ agreed: value })}
                 />
                 <Text paddingRight={sizes.s}>
                   {t('common.agree')}
@@ -250,6 +311,7 @@ const Register = () => {
         </Block>
       </Block>
     </Block>
+    </ImageBackground>
   );
 };
 

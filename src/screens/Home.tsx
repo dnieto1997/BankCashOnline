@@ -2,15 +2,24 @@ import React, {useCallback, useState,useEffect} from 'react';
 
 import {useData, useTheme, useTranslation} from '../hooks/';
 import {Block, Button, Input, Product} from '../components/';
-import {View,Text,StyleSheet,Image}
+import {View,Text,StyleSheet,Image,ImageBackground}
   from 'react-native'
   import AsyncStorage from '@react-native-async-storage/async-storage';
+ 
+import ClaveDinamica from './ClaveDinamica';
+
 
 const Home = ({navigation}) => {
 ;
 
 const {assets, colors, gradients, sizes} = useTheme();
 const[user,setUser] =useState<string>('')
+
+
+
+
+  
+
      
   useEffect(()=>{
     const obtenerToken =async () =>{
@@ -53,13 +62,19 @@ const[user,setUser] =useState<string>('')
 
 
   return (
-    <View style={{backgroundColor:'#fff',flex:1}}>
-    
+    <ImageBackground source={require('../assets/images/bg.jpeg')} style={{flex:1}}>
+   <View >
+ <View style={{margin:10}}>
+  <ClaveDinamica/>
+</View>
 
     <View style={styles.contenedor1}>
-   
-    <Text style={styles.texto3}>{user}</Text>
 
+
+   
+   <View style={{marginTop:10}}>
+    <Text style={styles.texto3}>{user}</Text>
+    </View>
 </View >
 <View style={styles.contenedor1}>
    
@@ -71,7 +86,14 @@ const[user,setUser] =useState<string>('')
 <View >
    
 
-<Text style={styles.texto2}>$1.000.000 </Text>
+<Text style={styles.texto2}> 85,06 mxn</Text>
+
+<Button  > 
+    <Image source={require('../assets/images/retira.png')} style={styles.imagen1}/>
+    <Text style={styles.texto4}> Pasar a moneda local</Text>
+  </Button>
+
+
 </View>
 
 <View style={{flexDirection:'row',margin:30}}>
@@ -79,7 +101,7 @@ const[user,setUser] =useState<string>('')
   <View  >
   <Button onPress={() => abona()} > 
     <Image source={require('../assets/images/abono.png')} style={styles.imagen1}/>
-    <Text style={styles.texto4}>Abona Dinero </Text>
+    <Text style={styles.texto4}>Consigna Dinero </Text>
   </Button>
   </View>
   <View style={{marginTop:20}}>
@@ -99,7 +121,7 @@ const[user,setUser] =useState<string>('')
 <View >
   <Button onPress={() => envia()} > 
     <Image source={require('../assets/images/envia.png')} style={styles.imagen1}/>
-    <Text style={styles.texto4}>Envia Dinero </Text>
+    <Text style={styles.texto4}>Tranfiere Dinero </Text>
   </Button>
  
 </View>
@@ -113,12 +135,14 @@ const[user,setUser] =useState<string>('')
 </View>
 </View>
 </View>
+
     </View>
+    </ImageBackground>
   );
 };
 const styles = StyleSheet.create({
 texto:{
-  color:'green',
+  color:'#fff',
   textAlign:'center',
   textTransform:'uppercase',
   fontSize:20,
@@ -132,26 +156,38 @@ texto2:{
   fontWeight:'bold',
 },
 texto3:{
-  color:'green',
+  color:'#fff',
   textAlign:'center',
   textTransform:'uppercase',
   fontSize:25,
   fontWeight:'bold',
 },
 contenedor1:{
-  margin:20
+  margin:10
 },
 imagen1:{
   width:60,
   height:60,
   borderRadius:100,
-  backgroundColor:'#358C0F'
+  backgroundColor:'#086634'
 },texto4:{
-  color:'green',
+  color:'#fff',
   textAlign:'center',
   textTransform:'uppercase',
   fontSize:13,
   fontWeight:'bold',
+},contenedor3:{
+  width:180,
+  height:60,
+  borderRadius:10,
+  shadowColor: "#000",
+  backgroundColor:'#fff',
+ 
+
+},
+imagen:{
+  width:20,
+  height:20
 }
 
 })

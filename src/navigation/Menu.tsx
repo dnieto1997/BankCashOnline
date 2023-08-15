@@ -142,7 +142,7 @@ const DrawerContent = (
                 width={sizes.md}
                 height={sizes.md}
                 marginRight={sizes.s}
-                gradient={gradients[isActive ? 'primary' : 'white']}>
+                gradient={gradients[isActive ? 'black' : 'white']}>
                 <Image
                   radius={0}
                   width={14}
@@ -170,10 +170,10 @@ const DrawerContent = (
 
 /* drawer menu navigation */
 export default () => {
-  const {gradients} = useTheme();
+  const {gradients,colors} = useTheme();
 
   return (
-    <Block gradient={gradients.light}>
+    <Block color={colors.dark}>
     
       <Drawer.Navigator
       

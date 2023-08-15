@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {
-  StyleSheet, View,Alert,Image
+  StyleSheet, View,Alert,Image,ImageBackground
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -23,6 +23,13 @@ const Login = ({navigation}) => {
     consumirApi()
 
   }, [])
+
+
+     
+  const register = () => {
+
+    navigation.navigate('Register')
+  }
 
 
   const consumirApi = async () => {
@@ -112,16 +119,17 @@ const Login = ({navigation}) => {
 
 
   return (
-<View style={{backgroundColor:'#fff',flex:1}}>
-
+    
+<View style={{flex:1}}>
+<ImageBackground source={require('../assets/images/bg.jpeg')} style={{flex:1}}>
     <View style={styles.contenedor}>
  
 <Image source={require('../assets/images/logo1.png')} style={styles.imagen} />  
 
 <View style={{marginTop:30}}>
 <View style={{marginBottom:20}}>
-<Input  label="Username"
-        placeholder='Username'
+<Input  label="Email"
+        placeholder='Email'
         style={styles.input}
         onChangeText={guardarUsuario}
         value={usuario} />
@@ -152,8 +160,28 @@ color={colors.black}
               </Button>
               </View>
               </View>
+
+              <View>
+                <View>
+                  <Text>No tienes un usuario, Registrate?</Text>
+                </View>
+                <View>
+                <Button
+              onPress={() => register()}
+                marginVertical={sizes.s}
+                marginHorizontal={sizes.sm}
+                gradient={gradients.success}
+                >
+                <Text bold white transform="uppercase">
+                 Registrarse
+                </Text>
+              </Button>
+                </View>
+              </View>
     </View>
+    </ImageBackground>
     </View>
+   
 
 
   )
@@ -192,9 +220,6 @@ const styles = StyleSheet.create({
     paddingHorizontal:40,
     transform: [{translateY:80}],
     shadowColor: "#000",
-    shadowColor: "#000000",
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
     shadowOffset: {
         width: 0,
         height: 7,

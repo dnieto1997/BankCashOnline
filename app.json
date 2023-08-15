@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "rn-soft-ui-kit-free",
-    "slug": "rn-soft-ui-kit-free",
-    "description": "React Native - Soft UI Kit - Free",
-    "primaryColor": "#CB0C9F",
+    "name": "BankCash",
+    "slug": "BankCash",
+    "description": "Bank Cash Online",
+    "primaryColor": "#086634",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/bank.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash.jpeg",
       "resizeMode": "cover",
-      "backgroundColor": "#CB0C9F"
+      "backgroundColor": "#086634"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -19,16 +19,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.daironieto.rnsoftuikitfree"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#CB0C9F"
-      }
+        "foregroundImage": "./assets/bank.png",
+        "backgroundColor": "#086634"
+      },
+      "package": "com.daironieto.rnsoftuikitfree"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "fb2c820c-00bd-4301-8b9d-1650e6693de3"
+      }
     }
   }
 }

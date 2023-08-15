@@ -35,7 +35,7 @@
     "terms": "Terms and Conditions",
     "signup": "Sign Up",
     "signin": "Sign In",
-    "goBack": "Go back",
+    "goBack": "Regresar",
     "inStock": "In stock",
     "outStock": "Out of stock",
     "addToCart": "Add to cart",
@@ -49,10 +49,10 @@
     }
   },
   "app": {
-    "name": "Bank Cash Online",
-    "fullname": "Bank Cash Online",
+    "name": "Bank Cash",
+    "fullname": "Bank Cash",
     "native": "React Native",
-    "link": "creative-tim.com"
+    "link": "bankcashinternational.com"
   },
   "darkMode": "Dark Mode",
   "screens": {
@@ -64,15 +64,15 @@
     "settings": "Settings",
     "register": "Cambiar Contraseña",
     "extra": "Extra - Automotive",
-    "tarjeta": "Tarjeta Virtual"
+    "tarjeta": "Adjunta Comprobante"
   },
   "navigation": {
-    "home": "Dashboard",
+    "home": "Wallet BankCash",
     "components": "Components",
     "articles": "Soft UI",
     "cambios": "Cambios de Divisas",
     "retira":"Retira Dinero",
-    "envia":"Envia Dinero",
+    "envia":"Tranfiere Dinero",
     "abona":"Abona Dinero",
     "tarjeta": "Tarjeta Virtual",
     "rentals": "Soft UI",
