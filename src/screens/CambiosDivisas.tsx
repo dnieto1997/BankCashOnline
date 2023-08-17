@@ -7,7 +7,7 @@ import {
 const CambiosDivisas = () => {
   return (
     <View> 
-    <Text>Cambios divisasdddffd</Text>
+    <Text>Pagos</Text>
         
        </View>
   )

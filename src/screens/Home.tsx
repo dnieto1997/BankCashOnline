@@ -38,6 +38,11 @@ const[user,setUser] =useState<string>('')
       navigation.navigate('Abona')
     }
 
+    const tarjeta = () => {
+
+      navigation.navigate('Tarjeta')
+    }
+
     
 
     const retira = () => {
@@ -45,6 +50,16 @@ const[user,setUser] =useState<string>('')
       navigation.navigate('Retira')
     }
 
+    
+    const remesas = () => {
+
+      navigation.navigate('Remesas')
+    }
+
+    const movimientos = () => {
+
+      navigation.navigate('Movimientos')
+    }
     const cambio = () => {
 
       navigation.navigate('CambiosDivisas')
@@ -83,7 +98,7 @@ const[user,setUser] =useState<string>('')
   </Button>
   </View>
   <View  style={{marginTop:15}}>
-  <Button onPress={() => retira()} > 
+  <Button onPress={() => movimientos()} > 
     <Image source={require('../assets/images/movimientos.png')} style={styles.imagen1}/>
     <Text style={styles.texto4}>movimientos</Text>
   </Button>
@@ -94,13 +109,13 @@ const[user,setUser] =useState<string>('')
 
 <View style={{margin:10}}>
   <View  >
-  <Button onPress={() => abona()} > 
+  <Button onPress={()=>retira()} > 
     <Image source={require('../assets/images/transfiere.png')} style={styles.imagen1}/>
     <Text style={styles.texto4}>transfiere </Text>
   </Button>
   </View>
   <View  style={{marginTop:15}} >
-  <Button onPress={() => retira()} > 
+  <Button onPress={()=>tarjeta()} > 
     <Image source={require('../assets/images/tarjeta.png')} style={styles.imagen1}/>
     <Text style={styles.texto4}>tarjeta virtual </Text>
   </Button>
@@ -111,13 +126,13 @@ const[user,setUser] =useState<string>('')
 
 <View style={{marginTop:10,marginLeft:15}}>
   <View  >
-  <Button onPress={() => abona()} > 
+  <Button onPress={()=>remesas()} > 
     <Image source={require('../assets/images/remesas.png')} style={styles.imagen1}/>
     <Text style={styles.texto4}>Remesas </Text>
   </Button>
   </View>
   <View  style={{marginTop:15}} >
-  <Button onPress={() => retira()} > 
+  <Button onPress={()=>cambio()} > 
     <Image source={require('../assets/images/pago.png')} style={styles.imagen1}/>
     <Text style={styles.texto4}>pagos </Text>
   </Button>

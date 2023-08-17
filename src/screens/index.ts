@@ -10,7 +10,9 @@ export {default as Envia} from './Envia';
 export {default as Retira} from './Retira';
 export {default as CambiosDivisas} from './CambiosDivisas';
 export {default as Tarjeta} from './Tarjeta';
+export {default as Remesas} from './Remesas';
 
+export {default as Movimientos} from './Movimientos';
 
 
 export {default as Profile} from './Profile';

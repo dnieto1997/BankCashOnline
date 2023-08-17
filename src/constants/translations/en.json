@@ -69,12 +69,14 @@
   "navigation": {
     "home": "Welcome...",
     "components": "Components",
+    "remesas":"Remesas",
+    "movimientos":"Movimientos",
     "articles": "Soft UI",
-    "cambios": "Cambios de Divisas",
-    "retira":"Retira Dinero",
+    "cambios": "Pagos",
+    "retira":"Transfiere",
     "envia":"Tranfiere Dinero",
-    "abona":"Abona Dinero",
-    "tarjeta": "Tarjeta Virtual",
+    "abona":"Consigna",
+    "tarjeta": "Tarjeta",
     "rentals": "Soft UI",
     "rental": "Best Deal",
     "booking": "Booking",
@@ -88,7 +90,8 @@
     "register": "Register",
     "login": "Login",
     "extra": "Automotive",
-    "shopping": "Shopping Cart"
+    "shopping": "Shopping Cart",
+
   },
   "menu": {
     "started": "Getting Started",

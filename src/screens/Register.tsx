@@ -125,9 +125,7 @@ const Register = () => {
               </Text>
             </Button>
 
-            <Text h4 center white marginBottom={sizes.md}>
-              {t('register.title')}
-            </Text>
+          
           </Image>
         </Block>
         {/* register form */}

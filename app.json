@@ -8,7 +8,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/splash.jpeg",
+      "image": "./assets/splash.png",
       "resizeMode": "cover",
       "backgroundColor": "#086634"
     },
@@ -24,7 +24,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/bank.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#086634"
       },
       "package": "com.daironieto.rnsoftuikitfree"

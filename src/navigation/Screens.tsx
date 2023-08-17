@@ -5,7 +5,8 @@ import {Abona, Articles, Components, Home, Profile, Register,Envia, Retira, Camb
 import {useScreenOptions, useTranslation} from '../hooks';
 import Login from '../screens/Login';
 import Tarjeta from '../screens/Tarjeta';
-
+import Movimientos from '../screens/Movimientos';
+import Remesas from '../screens/Remesas';
 
 
 const Stack = createStackNavigator();
@@ -35,11 +36,25 @@ export default () => {
         component={Home}
         options={{title: t('navigation.home')}}
       />
+
+      
+<Stack.Screen
+        name="Movimientos"
+        component={Movimientos}
+        options={{title: t('navigation.movimientos')}}
+      />
       
       <Stack.Screen
         name="Abona"
         component={Abona}
         options={{title: t('navigation.abona')}}
+      />
+
+
+<Stack.Screen
+        name="Remesas"
+        component={Remesas}
+        options={{title: t('navigation.remesas')}}
       />
 
        <Stack.Screen
@@ -62,11 +77,7 @@ export default () => {
 
 
 
-      <Stack.Screen
-        name="Components"
-        component={Components}
-        options={screenOptions.components}
-      />
+  
 
       <Stack.Screen
         name="Articles"
