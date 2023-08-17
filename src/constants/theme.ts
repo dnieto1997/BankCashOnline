@@ -80,7 +80,7 @@ export const ASSETS: ThemeAssets = {
   OpenSansBold: require('../assets/fonts/OpenSans-Bold.ttf'),
 
   // backgrounds/logo
-  logo: require('../assets/images/bank.png'),
+  logo: require('../assets/images/logo1.png'),
   header: require('../assets/images/header.png'),
   background: require('../assets/images/card3.png'),
   ios: require('../assets/images/ios.png'),

@@ -10,7 +10,7 @@ import {THEME as commonTheme} from './theme';
 
 export const COLORS: ThemeColors = {
   // default text color
-  text: '#252F40',
+  text: 'white',
 
   // base colors
   /** UI color for #primary */
@@ -42,7 +42,7 @@ export const COLORS: ThemeColors = {
   info: '#17C1E8',
 
   /** UI colors for navigation & card */
-  card: '#FFFFFF',
+  card: '#373737',
   background: '#E9ECEF',
 
   /** UI color for shadowColor */

@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import {
-  StyleSheet, View,Alert,Image,ImageBackground
+  StyleSheet, View, Alert, Image, ImageBackground
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Block, Button, Input, Switch, Modal, Text} from '../components/';
-import {useData, useTheme, useTranslation} from '../hooks/';
+import { Block, Button, Input, Switch, Modal, Text } from '../components/';
+import { useData, useTheme, useTranslation } from '../hooks/';
 
 
 
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
   const [usuario, guardarUsuario] = useState('')
   const [password, guardarPassword] = useState('')
-  const {assets, colors, gradients, sizes} = useTheme();
+  const { assets, colors, gradients, sizes } = useTheme();
 
 
 
@@ -25,7 +25,7 @@ const Login = ({navigation}) => {
   }, [])
 
 
-     
+
   const register = () => {
 
     navigation.navigate('Register')
@@ -54,7 +54,7 @@ const Login = ({navigation}) => {
       const resJson = await res.json();
       const token = resJson.token
       console.log(token)
-      
+
 
       const res2 = await fetch(
         'http://129.80.238.214:3000/api/menu',
@@ -68,11 +68,11 @@ const Login = ({navigation}) => {
 
 
       const { tipo, status } = await res2.json();
-   
 
 
 
-     if (status === 1 && tipo === "MA") {
+
+      if (status === 1 && tipo === "MA") {
 
         await AsyncStorage.setItem('token', token)
         await AsyncStorage.setItem('user', usuario)
@@ -81,13 +81,13 @@ const Login = ({navigation}) => {
         navigation.navigate('Home')
 
       } else if (status === 1 && tipo === "TE") {
-   
+
         await AsyncStorage.setItem('user', usuario)
 
 
         navigation.navigate('Home')
-      
-      }else if(resJson.msg=="Usuario/Password no son correctos"){
+
+      } else if (resJson.msg == "Usuario/Password no son correctos") {
         mostrarAlerta()
       }
 
@@ -119,69 +119,70 @@ const Login = ({navigation}) => {
 
 
   return (
+
+    <View style={{ flex: 1 }}>
+      <ImageBackground source={require('../assets/images/bg2.jpeg')} style={{ flex: 1 }}>
+        <View style={styles.contenedor}>
+
+          <View style={{marginTop:'90%'}} >
+            <View>
+              <Input 
+                placeholder='Email'
+                style={styles.input1}
+                onChangeText={guardarUsuario}
+                value={usuario}
+                color={colors.black}
+                />
+        </View>
+
+            <View >
+              <Input
+                color={colors.black}
+                placeholder='Password'
+                style={styles.input2}
+                onChangeText={guardarPassword}
+                value={password}
+                secureTextEntry={true} />
+
+            </View>
+
     
-<View style={{flex:1}}>
-<ImageBackground source={require('../assets/images/bg.jpeg')} style={{flex:1}}>
-    <View style={styles.contenedor}>
- 
-<Image source={require('../assets/images/logo1.png')} style={styles.imagen} />  
-
-<View style={{marginTop:30}}>
-<View style={{marginBottom:20}}>
-<Input  label="Email"
-        placeholder='Email'
-        style={styles.input}
-        onChangeText={guardarUsuario}
-        value={usuario} />
-</View>
-
-<View style={{marginBottom:20}}>
-<Input 
-color={colors.black}
-         label="Password"
-         placeholder='Password'
-         style={styles.input}
-         onChangeText={guardarPassword}
-         value={password}
-         secureTextEntry={true} />
-
-</View>
-     
-<View style={{marginBottom:20}}>
-      <Button
-              onPress={() => consumirApi()}
+          </View>
+         <View style={{flexDirection:'row',marginRight:20, marginTop:30}}>
+         
+         
+          <View >
+              <Button
+                onPress={() => consumirApi()}
                 marginVertical={sizes.s}
                 marginHorizontal={sizes.sm}
                 gradient={gradients.success}
-                >
+        
+              >
                 <Text bold white transform="uppercase">
-                 Ingresar
+                  Ingresar
                 </Text>
               </Button>
-              </View>
-              </View>
-
-              <View>
-                <View>
-                  <Text>No tienes un usuario, Registrate?</Text>
-                </View>
-                <View>
-                <Button
-              onPress={() => register()}
+            </View>
+          <View>
+            <View>
+              <Button
+                onPress={() => register()}
                 marginVertical={sizes.s}
                 marginHorizontal={sizes.sm}
                 gradient={gradients.success}
-                >
+              >
                 <Text bold white transform="uppercase">
-                 Registrarse
+                  Registrarse
                 </Text>
               </Button>
-                </View>
-              </View>
+            </View>
+          </View>
+          </View>
+        </View>
+      </ImageBackground>
     </View>
-    </ImageBackground>
-    </View>
-   
+
 
 
   )
@@ -190,16 +191,28 @@ color={colors.black}
 
 const styles = StyleSheet.create({
 
-  input: {
-    marginBottom: 20,
-    backgroundColor: 'transparent',
+  input1: {
+
+    backgroundColor: '#DAE1D7',
+    borderRadius:100
+
     
+   
+
+
+  }, 
+  input2: {
+    
+    backgroundColor: '#B1B8AD',
+    marginTop:25,
+    borderRadius:100
+
 
   }, imagen: {
-    width:260,
-    height:80,
-    
-    
+    width: 260,
+    height: 160,
+
+
   }, boton: {
     backgroundColor: '#C70039'
 
@@ -211,23 +224,13 @@ const styles = StyleSheet.create({
 
 
   },
-  contenedor:{
-    backgroundColor:'#FFF',
-    marginHorizontal:10,
-    marginTop:30,
-    borderRadius:20,
-    paddingVertical:40,
-    paddingHorizontal:40,
-    transform: [{translateY:80}],
-    shadowColor: "#000",
-    shadowOffset: {
-        width: 0,
-        height: 7,
-    },
-    shadowOpacity: 0.44,
-    shadowRadius: 10.32,
-    elevation: 5
-}
+  contenedor: {
+    backgroundColor: 'transparent',
+    marginTop: 60,
+    borderRadius: 20,
+    paddingVertical: 40,
+    paddingHorizontal: 40
+  }
 
 
 

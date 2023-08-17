@@ -49,8 +49,8 @@
     }
   },
   "app": {
-    "name": "Bank Cash",
-    "fullname": "Bank Cash",
+    "name": "World Pay International",
+    "fullname": "World Pay International",
     "native": "React Native",
     "link": "bankcashinternational.com"
   },
@@ -64,10 +64,10 @@
     "settings": "Settings",
     "register": "Cambiar Contraseña",
     "extra": "Extra - Automotive",
-    "tarjeta": "Adjunta Comprobante"
+    "tarjeta": "Comprobantes"
   },
   "navigation": {
-    "home": "Wallet BankCash",
+    "home": "Welcome...",
     "components": "Components",
     "articles": "Soft UI",
     "cambios": "Cambios de Divisas",

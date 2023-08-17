@@ -6,12 +6,17 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Block, Button, Input, Switch, Modal, Text} from '../components/';
 import {useData, useTheme, useTranslation} from '../hooks/';
+import ClaveDinamica from './ClaveDinamica';
 
 
 const Envia = () => {
   return (
     <ImageBackground source={require('../assets/images/bg.jpeg')} style={{flex:1}}> 
     <View > 
+
+    <View style={{margin:10}}>
+  <ClaveDinamica/>
+</View>
 
    
 <View style={{margin:30}}> 

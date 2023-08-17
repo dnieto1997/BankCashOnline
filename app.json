@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "BankCash",
-    "slug": "BankCash",
-    "description": "Bank Cash Online",
+    "name": "World Pay International",
+    "slug": "rn-soft-ui-kit-free",
+    "description": "WorldPayInternational",
     "primaryColor": "#086634",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/bank.png",
+    "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.jpeg",
       "resizeMode": "cover",

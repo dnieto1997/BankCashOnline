@@ -15,11 +15,6 @@ const Home = ({navigation}) => {
 const {assets, colors, gradients, sizes} = useTheme();
 const[user,setUser] =useState<string>('')
 
-
-
-
-  
-
      
   useEffect(()=>{
     const obtenerToken =async () =>{
@@ -63,86 +58,85 @@ const[user,setUser] =useState<string>('')
 
   return (
     <ImageBackground source={require('../assets/images/bg.jpeg')} style={{flex:1}}>
-   <View >
- <View style={{margin:10}}>
-  <ClaveDinamica/>
-</View>
-
-    <View style={styles.contenedor1}>
-
-
    
-   <View style={{marginTop:10}}>
+   
+   <View style={{marginTop:'42%'}}>
     <Text style={styles.texto3}>{user}</Text>
     </View>
-</View >
+
 <View style={styles.contenedor1}>
    
    
 <Text style={styles.texto} >Mi saldo </Text>
-
+</View>
+<View > 
+<Text style={styles.texto2}>$18.000</Text>
 </View>
 
-<View >
-   
 
-<Text style={styles.texto2}> 85,06 mxn</Text>
-
-<Button  > 
-    <Image source={require('../assets/images/retira.png')} style={styles.imagen1}/>
-    <Text style={styles.texto4}> Pasar a moneda local</Text>
-  </Button>
-
-
-</View>
-
-<View style={{flexDirection:'row',margin:30}}>
-<View style={{margin:30}}>
+<View style={styles.contenedor4}>
+<View style={{margin:10}} >
   <View  >
   <Button onPress={() => abona()} > 
-    <Image source={require('../assets/images/abono.png')} style={styles.imagen1}/>
-    <Text style={styles.texto4}>Consigna Dinero </Text>
+    <Image source={require('../assets/images/consigna.png')} style={styles.imagen1}/>
+    <Text style={styles.texto4}>consigna</Text>
   </Button>
   </View>
-  <View style={{marginTop:20}}>
+  <View  style={{marginTop:15}}>
   <Button onPress={() => retira()} > 
-    <Image source={require('../assets/images/retira.png')} style={styles.imagen1}/>
-    <Text style={styles.texto4}>Retira Dinero </Text>
+    <Image source={require('../assets/images/movimientos.png')} style={styles.imagen1}/>
+    <Text style={styles.texto4}>movimientos</Text>
   </Button>
   </View>
- 
-</View>
-
-
   
- 
-<View  style={{margin:30}}>
+  
+</View>
 
-<View >
-  <Button onPress={() => envia()} > 
-    <Image source={require('../assets/images/envia.png')} style={styles.imagen1}/>
-    <Text style={styles.texto4}>Tranfiere Dinero </Text>
+<View style={{margin:10}}>
+  <View  >
+  <Button onPress={() => abona()} > 
+    <Image source={require('../assets/images/transfiere.png')} style={styles.imagen1}/>
+    <Text style={styles.texto4}>transfiere </Text>
   </Button>
- 
-</View>
-
-<View  style={{marginTop:20}}>
-  <Button onPress={() => cambio()} > 
-    <Image source={require('../assets/images/cambio.png')} style={styles.imagen1}/>
-    <Text style={styles.texto4}>Cambios de Divisas </Text>
+  </View>
+  <View  style={{marginTop:15}} >
+  <Button onPress={() => retira()} > 
+    <Image source={require('../assets/images/tarjeta.png')} style={styles.imagen1}/>
+    <Text style={styles.texto4}>tarjeta virtual </Text>
   </Button>
- 
-</View>
-</View>
+  </View>
+  
+  
 </View>
 
-    </View>
+<View style={{marginTop:10,marginLeft:15}}>
+  <View  >
+  <Button onPress={() => abona()} > 
+    <Image source={require('../assets/images/remesas.png')} style={styles.imagen1}/>
+    <Text style={styles.texto4}>Remesas </Text>
+  </Button>
+  </View>
+  <View  style={{marginTop:15}} >
+  <Button onPress={() => retira()} > 
+    <Image source={require('../assets/images/pago.png')} style={styles.imagen1}/>
+    <Text style={styles.texto4}>pagos </Text>
+  </Button>
+  </View>
+  
+  
+</View>
+
+</View>
+ 
+
+
+    
     </ImageBackground>
   );
 };
 const styles = StyleSheet.create({
 texto:{
-  color:'#fff',
+  color:'black',
   textAlign:'center',
   textTransform:'uppercase',
   fontSize:20,
@@ -152,7 +146,7 @@ texto2:{
   color:'black',
   textAlign:'center',
   textTransform:'uppercase',
-  fontSize:30,
+  fontSize:40,
   fontWeight:'bold',
 },
 texto3:{
@@ -163,15 +157,15 @@ texto3:{
   fontWeight:'bold',
 },
 contenedor1:{
-  margin:10
+  marginTop:35
 },
 imagen1:{
   width:60,
   height:60,
   borderRadius:100,
-  backgroundColor:'#086634'
+
 },texto4:{
-  color:'#fff',
+  color:'green',
   textAlign:'center',
   textTransform:'uppercase',
   fontSize:13,
@@ -188,6 +182,9 @@ imagen1:{
 imagen:{
   width:20,
   height:20
+}, contenedor4:{
+  flexDirection:'row',
+  marginTop:40
 }
 
 })
