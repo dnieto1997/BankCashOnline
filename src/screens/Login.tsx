@@ -85,7 +85,6 @@ const Login = ({ navigation }) => {
         await AsyncStorage.setItem('user', usuario)
 
 
-        navigation.navigate('Home')
 
       } else if (resJson.msg == "Usuario/Password no son correctos") {
         mostrarAlerta()

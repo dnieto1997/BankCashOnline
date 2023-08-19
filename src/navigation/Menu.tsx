@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import { Animated, Linking, StyleSheet, View} from 'react-native';
+import { Animated, Linking, StyleSheet, View,Alert} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   useIsDrawerOpen,
@@ -82,11 +83,54 @@ const DrawerContent = (
 
 
 
+
+
+  const handleNavigation2 =  () => {
+
+    Alert.alert('Cierre de Sesión', '¿Estás seguro que quieres cerrar sesión?', [
+      {
+        text: 'Cancelar',
+        style: 'cancel',
+      },
+      {
+        text: 'Cerrar Sesión',
+        style: 'destructive',
+        onPress: async () => {
+
+          
+          try {
+            const keys = await AsyncStorage.getAllKeys();
+            await AsyncStorage.multiRemove(keys);
+            navigation.navigate('Login');
+
+
+            
+          } catch (error) {
+            console.error('Error clearing AsyncStorage:', error);
+          }
+        },
+      },
+    ]);
+
+ 
+};
+
+
+
+
   // screen list for Drawer menu
   const screens = [
     {name: t('screens.home'), to: 'Home', icon: assets.home},
     {name: t('screens.register'), to: 'Register', icon: assets.register},
     {name: t('screens.profile'), to: 'Profile', icon: assets.profile},
+
+
+
+  ];
+
+  const screens2 = [
+
+    {name: t('screens.login'), to: 'Login', icon: assets.cerrarsesion}
 
 
   ];
@@ -127,7 +171,7 @@ const DrawerContent = (
           const isActive = active === screen.to;
           return (
 
-            
+           
             <Button
               row
               justify="flex-start"
@@ -155,9 +199,49 @@ const DrawerContent = (
                 {screen.name}
               </Text>
             </Button>
+
+            
           );
         })}
 
+
+
+{screens2?.map((screen, index) => {
+          const isActive = active === screen.to;
+          return (
+
+           
+            <Button
+              row
+              justify="flex-start"
+              marginBottom={sizes.s}
+              key={`menu-screen-${screen.name}-${index}`}
+              onPress={() => handleNavigation2(screen.to)}>
+              <Block
+                flex={0}
+                radius={6}
+                align="center"
+                justify="center"
+                width={sizes.md}
+                height={sizes.md}
+                marginRight={sizes.s}
+                gradient={gradients[isActive ? 'black' : 'white']}>
+                <Image
+                  radius={0}
+                  width={14}
+                  height={14}
+                  source={screen.icon}
+                  color={colors[isActive ? 'white' : 'black']}
+                />
+              </Block>
+              <Text p semibold={isActive} color={labelColor}>
+                {screen.name}
+              </Text>
+            </Button>
+
+            
+          );
+        })}
 
 
 

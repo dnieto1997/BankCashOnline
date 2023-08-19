@@ -64,7 +64,8 @@
     "settings": "Settings",
     "register": "Cambiar Contraseña",
     "extra": "Extra - Automotive",
-    "tarjeta": "Comprobantes"
+    "tarjeta": "Comprobantes",
+    "login": "Cerrar Sesion"
   },
   "navigation": {
     "home": "Welcome...",
@@ -90,7 +91,7 @@
     "register": "Register",
     "login": "Login",
     "extra": "Automotive",
-    "shopping": "Shopping Cart",
+    "shopping": "Shopping Cart"
 
   },
   "menu": {

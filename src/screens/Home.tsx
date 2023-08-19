@@ -199,7 +199,9 @@ imagen:{
   height:20
 }, contenedor4:{
   flexDirection:'row',
-  marginTop:40
+  marginTop:40,
+  alignSelf:'center'
+
 }
 
 })

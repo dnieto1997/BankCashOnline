@@ -68,6 +68,7 @@ export const ICONS: ThemeIcons = {
   users: require('../assets/icons/users.png'),
   warning: require('../assets/icons/warning.png'),
   tarjeta: require('../assets/icons/tarjeta.png'),
+  cerrarsesion: require('../assets/icons/cerrar.png'),
  
 };
 
