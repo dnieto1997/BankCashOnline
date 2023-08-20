@@ -1,12 +1,13 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import {Abona, Articles, Components, Home, Profile, Register,Envia, Retira, CambiosDivisas} from '../screens';
+import {Abona, Articles, Components, Home, Profile, Register,Envia, Retira, CambiosDivisas, ChangePasswordScreen} from '../screens';
 import {useScreenOptions, useTranslation} from '../hooks';
 import Login from '../screens/Login';
 import Tarjeta from '../screens/Tarjeta';
 import Movimientos from '../screens/Movimientos';
 import Remesas from '../screens/Remesas';
+import Perfil from '../screens/Perfil';
 
 
 const Stack = createStackNavigator();
@@ -76,6 +77,12 @@ export default () => {
       />
 
 
+<Stack.Screen
+        name="ChangePasswordScreen"
+        component={ChangePasswordScreen}
+        options={{title: t('navigation.password')}}
+      />
+
 
   
 
@@ -89,7 +96,7 @@ export default () => {
       <Stack.Screen
         name="Profile"
         component={Profile}
-        options={{headerShown: false}}
+        
       />
 
 <Stack.Screen
@@ -103,6 +110,7 @@ export default () => {
         component={Register}
         options={{headerShown: false}}
       />
+      
     </Stack.Navigator>
   );
 };

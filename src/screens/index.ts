@@ -13,7 +13,7 @@ export {default as Tarjeta} from './Tarjeta';
 export {default as Remesas} from './Remesas';
 export {default as Login} from './Login';
 export {default as Movimientos} from './Movimientos';
-
+export {default as ChangePasswordScreen} from './ChangePasswordScreen';
 
 export {default as Profile} from './Profile';
 export {default as Register} from './Register';
