@@ -2,10 +2,11 @@ import React, {useCallback, useState,useEffect} from 'react';
 
 import {useData, useTheme, useTranslation} from '../hooks/';
 import {Block, Button, Input, Product} from '../components/';
-import {View,Text,StyleSheet,Image,ImageBackground}
+import {View,Text,StyleSheet,Image,ImageBackground,ScrollView,RefreshControl}
   from 'react-native'
-  import AsyncStorage from '@react-native-async-storage/async-storage';
- 
+
+  import AsyncStorage from '@react-native-async-storage/async-storage'; 
+
 import ClaveDinamica from './ClaveDinamica';
 
 
@@ -13,15 +14,21 @@ const Home = ({navigation}) => {
 ;
 
 const {assets, colors, gradients, sizes} = useTheme();
+const[token,setToken] =useState<string>('')
 const[user,setUser] =useState<string>('')
-
+const [balance, setBalance] = useState(null);
+const [refreshing, setRefreshing] = useState(false);
      
   useEffect(()=>{
     const obtenerToken =async () =>{
     try {
-      const userstorage:any =await AsyncStorage.getItem('user') 
-      setUser(userstorage)
-    
+  const token:any =await AsyncStorage.getItem('token') 
+  const user:any =await AsyncStorage.getItem('user') 
+      setToken(token)
+      setUser(user)
+
+      console.log(token)
+     
    
     } catch (error) {
       console.log(error)
@@ -32,7 +39,40 @@ const[user,setUser] =useState<string>('')
     obtenerToken()
     
     },[])
+
     
+
+
+    const obtenerBalance = async () => {
+      try {
+        const res = await fetch('http://62.72.19.116/api/account/balance', {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        const { balance} = await res.json();
+  
+
+          setBalance(balance);
+        
+        
+      } catch (err) {
+        console.log(err);
+      }
+    };
+  
+    const onRefresh = () => {
+      setRefreshing(true); // Start the loading indicator
+      obtenerBalance().then(() => setRefreshing(false)); // Fetch balance and stop loading when done
+    };
+  
+    useEffect(() => {
+      obtenerBalance(); 
+    }, [token]);
     const abona = () => {
 
       navigation.navigate('Abona')
@@ -72,11 +112,16 @@ const[user,setUser] =useState<string>('')
 
 
   return (
+  
     <ImageBackground source={require('../assets/images/bg.jpeg')} style={{flex:1}}>
+    <ScrollView
+    contentContainerStyle={{alignItems: 'center', justifyContent: 'center' }}
+    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+  >
+
    
-   
-   <View style={{marginTop:'42%'}}>
-    <Text style={styles.texto3}>{user}</Text>
+   <View style={{marginTop:'48%'}}>
+    <Text style={styles.texto3}>Welcome: {user}</Text>
     </View>
 
 <View style={styles.contenedor1}>
@@ -85,8 +130,10 @@ const[user,setUser] =useState<string>('')
 <Text style={styles.texto} >Mi saldo </Text>
 </View>
 <View > 
-<Text style={styles.texto2}>$18.000</Text>
+<Text style={styles.texto2}> {balance}</Text>
 </View>
+
+
 
 
 <View style={styles.contenedor4}>
@@ -143,10 +190,12 @@ const[user,setUser] =useState<string>('')
 
 </View>
  
+</ScrollView>
 
+</ImageBackground>
 
+       
     
-    </ImageBackground>
   );
 };
 const styles = StyleSheet.create({
@@ -165,7 +214,7 @@ texto2:{
   fontWeight:'bold',
 },
 texto3:{
-  color:'#fff',
+  color:'black',
   textAlign:'center',
   textTransform:'uppercase',
   fontSize:25,

@@ -87,6 +87,7 @@ const Abona = () => {
         keyboardType="numeric"
         value={amount}
         onChangeText={(text) => setAmount(text)}
+        
       />
       <TouchableOpacity style={styles.button} onPress={handleDeposit}>
         <Text style={styles.buttonText}>Consignar</Text>

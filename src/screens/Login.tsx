@@ -3,7 +3,7 @@ import {
   StyleSheet, View, Alert, Image, ImageBackground
 } from 'react-native';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+ import AsyncStorage from '@react-native-async-storage/async-storage'; 
 import { Block, Button, Input, Switch, Modal, Text } from '../components/';
 import { useData, useTheme, useTranslation } from '../hooks/';
 
@@ -38,63 +38,36 @@ const Login = ({ navigation }) => {
     try {
 
 
-      const res = await fetch('http://129.80.238.214:3000/api/auth/login/', {
+      const res = await fetch('http://62.72.19.116/api/auth/login', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          user: `${usuario}`,
+          email: `${usuario}`,
           password: `${password}`,
         }),
       });
 
-
       const resJson = await res.json();
-      const token = resJson.token
-      console.log(token)
+      const {account}=resJson
+      console.log(resJson)
 
-
-      const res2 = await fetch(
-        'http://129.80.238.214:3000/api/menu',
-        {
-          method: 'GET',
-          headers: {
-            'x-token': `${token}`,
-          }
-        },
-      );
-
-
-      const { tipo, status } = await res2.json();
-
-
-
-
-      if (status === 1 && tipo === "MA") {
-
-        await AsyncStorage.setItem('token', token)
-        await AsyncStorage.setItem('user', usuario)
-        await AsyncStorage.setItem('password', password)
-
-        navigation.navigate('Home')
-
-      } else if (status === 1 && tipo === "TE") {
-
-        await AsyncStorage.setItem('user', usuario)
-
-
-
-      } else if (resJson.msg == "Usuario/Password no son correctos") {
-        mostrarAlerta()
-      }
-
-      return
-
-
-
-
+                if(resJson.message=='Invalid Credentials'){
+                  mostrarAlerta()
+                  return
+                }else if(account.status=='Active'){
+                  const token = resJson.token
+                  const user = resJson.names
+                  await AsyncStorage.setItem('token',token) 
+                  await AsyncStorage.setItem('user',user) 
+                  navigation.navigate('Home')
+                  return
+                }else if(account.status!='Active'){
+                  inactive()
+                  return
+                }
 
     } catch (err) {
       console.log(err);
@@ -111,7 +84,10 @@ const Login = ({ navigation }) => {
     Alert.alert('Error', 'Usuario y contraseña incorrecta', [{ text: 'Ok' }])
   }
 
+  const inactive = () => {
 
+    Alert.alert('Error', 'Usuario Inactivo', [{ text: 'Ok' }])
+  }
 
 
 

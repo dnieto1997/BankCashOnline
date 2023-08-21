@@ -6,11 +6,12 @@ export const name: RegExp = /[a-zA-Z\ ]{3,15}/;
 
 export const lastname: RegExp = /[a-zA-Z\ ]{3,15}/;
 export const numdoc: RegExp = /^[0-9]{3,30}$/;
-export const country: RegExp = /[a-zA-Z\ ]{3,15}/;
+/* export const country: RegExp = /[a-zA-Z\ ]{3,15}/; */
+export const country: RegExp =/^[0-9]{1,2}$/;
 export const city: RegExp = /[a-zA-Z\ ]{3,15}/;
 export const phone: RegExp = /^[0-9]{3,30}$/;
 export const address: RegExp = /[a-zA-Z\ ]{3,30}/;
-
+export const postcode: RegExp = /^[0-9]{1,5}$/;
 
 
 /*

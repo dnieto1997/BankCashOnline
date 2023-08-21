@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Linking, Platform,ImageBackground } from 'react-native';
+import { Linking, Platform,ImageBackground,Alert} from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 
 import { useData, useTheme, useTranslation } from '../hooks/';
@@ -14,10 +14,7 @@ interface IRegistration {
   numdoc: string;
   email: string;
   password: string;
-  country: string;
-  city: string;
   phone:string;
-  address: string;
   agreed: boolean;
 }
 interface IRegistrationValidation {
@@ -26,10 +23,7 @@ interface IRegistrationValidation {
   numdoc: boolean;
   email: boolean;
   password: boolean;
-  country: boolean;
-  city: boolean;
   phone:boolean;
-  address: boolean;
   agreed: boolean;
 }
 
@@ -43,10 +37,7 @@ const Register = () => {
     numdoc: false,
     email: false,
     password: false,
-    country: false,
-    city: false,
     phone: false,
-    address: false,
     agreed: false
   });
   const [registration, setRegistration] = useState<IRegistration>({
@@ -55,10 +46,8 @@ const Register = () => {
     numdoc: '',
     email: '',
     password: '',
-    country: '',
-    city: '',
     phone: '',
-    address: '',
+    
     agreed: false
   });
   const { assets, colors, gradients, sizes } = useTheme();
@@ -70,11 +59,47 @@ const Register = () => {
     [setRegistration],
   );
 
-  const handleSignUp = useCallback(() => {
-    if (!Object.values(isValid).includes(false)) {
 
+
+  const handleSignUp = async () => {
+    const registrationData = {
+      names:registration.name,
+      surnames:registration.lastname,
+      numDocument:registration.numdoc,
+      email:registration.email,
+      password:registration.password,
+      cellphone:registration.phone,
+     
+    };
+
+    try {
+      const response = await fetch('http://62.72.19.116/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(registrationData),
+      });
+
+      const responseData = await response.json();
+      console.log('Respuesta de la API:', responseData);
+
+      if (response.ok) {
+        Alert.alert('Registration Success', 'You have been successfully registered!', [
+          { text: 'OK', onPress: () => navigation.navigate('Login') }, // Cambia 'Login' por el nombre correcto de tu pantalla de inicio de sesión
+        ]);
+      } else {
+        // Manejo de errores si la API devuelve un error
+      }
+
+      // Aquí podrías mostrar un mensaje de éxito al usuario o redirigir a otra pantalla.
+    } catch (error) {
+      console.error('Error al registrar:', error);
+      // Aquí podrías mostrar un mensaje de error al usuario.
     }
-  }, [isValid, registration]);
+  }
+  
+
 
   useEffect(() => {
     setIsValid((state) => ({
@@ -84,10 +109,7 @@ const Register = () => {
       password: regex.password.test(registration.password),
       lastname: regex.name.test(registration.lastname),
       numdoc: regex.numdoc.test(registration.numdoc),
-      country: regex.country.test(registration.country),
-      city: regex.city.test(registration.city),
       phone: regex.phone.test(registration.phone),
-      address: regex.address.test(registration.address),
       agreed: registration.agreed,
 
    
@@ -106,7 +128,7 @@ const Register = () => {
             padding={sizes.sm}
             radius={sizes.cardRadius}
             
-            height={sizes.height * 0.3}>
+            height={sizes.height * 0.4}>
             <Button
               row
               flex={0}
@@ -184,6 +206,7 @@ const Register = () => {
                   success={Boolean(registration.name && isValid.name)}
                   danger={Boolean(registration.name && !isValid.name)}
                   onChangeText={(value) => handleChange({ name: value })}
+                  color={colors.black}
                 />
 
                 <Input
@@ -194,6 +217,7 @@ const Register = () => {
                   success={Boolean(registration.lastname && isValid.lastname)}
                   danger={Boolean(registration.lastname && !isValid.lastname)}
                   onChangeText={(value) => handleChange({ lastname: value })}
+                  color={colors.black}
                 />
                 <Input
                    
@@ -204,6 +228,7 @@ const Register = () => {
                   success={Boolean(registration.numdoc && isValid.numdoc)}
                   danger={Boolean(registration.numdoc && !isValid.numdoc)}
                   onChangeText={(value) => handleChange({ numdoc: value })}
+                  color={colors.black}
                 />
                 <Input
                   autoCapitalize="none"
@@ -214,6 +239,7 @@ const Register = () => {
                   success={Boolean(registration.email && isValid.email)}
                   danger={Boolean(registration.email && !isValid.email)}
                   onChangeText={(value) => handleChange({ email: value })}
+                  color={colors.black}
                 />
                 <Input
                   secureTextEntry
@@ -224,6 +250,7 @@ const Register = () => {
                   onChangeText={(value) => handleChange({ password: value })}
                   success={Boolean(registration.password && isValid.password)}
                   danger={Boolean(registration.password && !isValid.password)}
+                  color={colors.black}
                 />
 
 
@@ -235,35 +262,10 @@ const Register = () => {
                   success={Boolean(registration.phone && isValid.phone)}
                   danger={Boolean(registration.phone && !isValid.phone)}
                   onChangeText={(value) => handleChange({ phone: value })}
+                  color={colors.black}
                 />
 
-                <Input
-                  autoCapitalize="none"
-                  marginBottom={sizes.m}
-                  label='Country'
-                  placeholder='Country'
-                  success={Boolean(registration.country && isValid.country)}
-                  danger={Boolean(registration.country && !isValid.country)}
-                  onChangeText={(value) => handleChange({ country: value })}
-                />
-                  <Input
-                  autoCapitalize="none"
-                  marginBottom={sizes.m}
-                  label='City'
-                  placeholder='City'
-                  success={Boolean(registration.city && isValid.city)}
-                  danger={Boolean(registration.city && !isValid.city)}
-                  onChangeText={(value) => handleChange({ city: value })}
-                />
-                  <Input
-                  autoCapitalize="none"
-                  marginBottom={sizes.m}
-                  label='Address'
-                  placeholder='Address'
-                  success={Boolean(registration.address && isValid.address)}
-                  danger={Boolean(registration.address && !isValid.address)}
-                  onChangeText={(value) => handleChange({ address: value })}
-                />
+                
               </Block>
               {/* checkbox terms */}
               <Block row flex={0} align="center" paddingHorizontal={sizes.sm}>
@@ -272,38 +274,19 @@ const Register = () => {
                   checked={registration?.agreed}
                   onPress={(value) => handleChange({ agreed: value })}
                 />
-                <Text paddingRight={sizes.s}>
-                  {t('common.agree')}
-                  <Text
-                    semibold
-                    onPress={() => {
-                      Linking.openURL('https://www.creative-tim.com/terms');
-                    }}>
-                    {t('common.terms')}
-                  </Text>
-                </Text>
+                
               </Block>
               <Button
                 onPress={handleSignUp}
                 marginVertical={sizes.s}
                 marginHorizontal={sizes.sm}
-                gradient={gradients.primary}
+                color={colors.success}
                 disabled={Object.values(isValid).includes(false)}>
                 <Text bold white transform="uppercase">
                   {t('common.signup')}
                 </Text>
               </Button>
-              <Button
-                primary
-                outlined
-                shadow={!isAndroid}
-                marginVertical={sizes.s}
-                marginHorizontal={sizes.sm}
-                onPress={() => navigation.navigate('Pro')}>
-                <Text bold primary transform="uppercase">
-                  {t('common.signin')}
-                </Text>
-              </Button>
+    
             </Block>
           </Block>
         </Block>
