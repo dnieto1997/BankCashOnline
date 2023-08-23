@@ -1,124 +1,265 @@
 import React, { useState, useEffect } from 'react'
-import { View,  TextInput, TouchableOpacity, StyleSheet,ImageBackground,Alert,ScrollView} from 'react-native';
+import { View, TextInput, TouchableOpacity, StyleSheet, ImageBackground, ToastAndroid,Alert,Button} from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Block, Button, Input, Switch, Modal,Text} from '../components/';
+import { Block, Input, Switch, Modal, Text } from '../components/';
 import RNPickerSelect from 'react-native-picker-select';
 import { useData, useTheme, useTranslation } from '../hooks/';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 
 
-interface CurrencyMap {
-  [country: string]: string;
-}
+
 
 const Abona = () => {
 
   const { assets, colors, gradients, sizes } = useTheme();
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
-  const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null);
+
+  const [token, setToken] = useState<string>('')
+  const [countries, setCountries] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedCountryCode, setSelectedCountryCode] = useState(null);
+  const [currencies, setCurrencies] = useState([]);
+  const [city, setCity] = useState('');
+  const [address, setAddress] = useState('');
+  const [postCode, setPostCode] = useState('');
+  const [currency, setCurrency] = useState('');
   const [amount, setAmount] = useState('');
-  const [message, setMessage] = useState('');
+  const [description, setDescription] = useState('');
+
+  const [moneda, setMoneda] = useState('');
+  const [checkout, setCheckout] = useState('');
+
+  useEffect(() => {
+    const obtenerToken = async () => {
+      try {
+        const token: any = await AsyncStorage.getItem('token')
+
+        setToken(token)
+
+
+        console.log(token)
+
+
+      } catch (error) {
+        console.log(error)
+
+      }
+
+    }
+    obtenerToken()
+
+  }, [])
+
   
 
+  useEffect(() => {
+    fetchData();
+  }, [token]);
 
-  const handleDeposit = () => {
-    if (!selectedCountry || !selectedCurrency || amount === '') {
-      setMessage('Por favor, completa todos los campos');
-    } else {
-      const currency = selectedCurrency === 'USD' ? 'dólares' : getCurrencies()[selectedCountry];
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://62.72.19.116/api/country', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
 
-      Alert.alert(
-        'Confirmar Depósito',
-        `¿Estás seguro de que deseas depositar ${amount} ${currency} en ${selectedCountry}?`,
-        [
-          { text: 'Cancelar', style: 'cancel' },
-          { text: 'Confirmar', onPress: performDeposit },
-        ]
-      );
+   
+        const data = await response.json();
+        setCountries(data);
+      
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
   };
 
-  const performDeposit = () => {
-    setMessage(`Has depositado ${amount} ${selectedCurrency} en ${selectedCountry}`);
+  const handleCountryChange = async (value) => {
+    setSelectedCountry(value);
+    setSelectedCountryCode(null);
+    setCurrencies([]);
+
+    const selectedCountryData = countries.find(country => country.countryCode === value);
+    if (selectedCountryData) {
+      setSelectedCountryCode(selectedCountryData.countryCode);
+      fetchCountryDetails(selectedCountryData.countryCode);
+
+   
+    }
+    
   };
 
-  const getCurrencies = (): CurrencyMap => {
-    return {
-      Colombia: 'pesos colombianos',
-      Mexico: 'pesos mexicanos',
-      // Agregar más países y monedas según sea necesario
-    };
+  const handleCurrencyChange = async (value) => {
+
+    setMoneda(value)
+    console.log('Moneda seleccionada:', value);
   };
 
-  const data = [
-    { label: 'Colombia', value: 'Colombia' },
-    { label: 'México', value: 'Mexico' },
-    // Agregar más países según sea necesario
-  ];
+  const fetchCountryDetails = async (countryCode) => {
+    try {
+      const response = await fetch(`http://62.72.19.116/api/country/${countryCode}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
 
+      if (response.ok) {
+        const data = await response.json();
+        if (data.currencys && Array.isArray(data.currencys)) {
+          setCurrencies(data.currencys);
+        }
+      } else {
+        console.error('Error fetching country details');
+      }
+    } catch (error) {
+      console.error('Error fetching country details:', error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    let formattedAmount = parseFloat(amount);
+    if (selectedCountry !== 'CO' && selectedCountry !== 'PE') {
+      formattedAmount *= 100;
+    }
+
+    // Construir el objeto de datos para la solicitud
+    const data = JSON.stringify({
+      country: selectedCountry,
+      city: city,
+      address: address,
+      postCode: postCode,
+      currency: moneda,
+      amount: formattedAmount,
+      language: 'ES',
+      description: description,
+    });
+
+
+    console.log("todo los datos",data)
+    try {
+      const response = await fetch('http://62.72.19.116/api/transactions/collection', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: data,
+      });
+      const responseData = await response.json();
+      setCheckout(responseData)
+      console.log(responseData)
+    
+    
+    } catch (error) {
+      console.error('Error al realizar la solicitud:', error);
+    }
+  };
+ 
+
+  const checkoutHasValue = checkout !== undefined && checkout !== null && checkout !== '';
   return (
 
-    <ImageBackground source={require('../assets/images/bg.jpeg')} style={{flex:1}}>
-    <View style={styles.container}>
-      <Text style={styles.title}>Consignar Dinero</Text>
+    <ImageBackground source={require('../assets/images/bg.jpeg')} style={{ flex: 1 }}>
+      <View style={styles.container}>
+      <View>
+      <Text>Selecciona un país:</Text>
       <RNPickerSelect
-        placeholder={{ label: 'Selecciona un país', value: null }}
-        items={data}
-        onValueChange={(value) => {
-          setSelectedCountry(value);
-          setSelectedCurrency(null); // Reseteamos la moneda al cambiar de país
-        }}
-        style={pickerSelectStyles}
+        placeholder={{ label: 'Selecciona un país...', value: null }}
         value={selectedCountry}
+        onValueChange={handleCountryChange}
+        items={countries.map((country) => ({
+          label: country.countryName,
+          value: country.countryCode,
+        }))}
       />
-      {selectedCountry && (
-        <RNPickerSelect
-          placeholder={{ label: 'Moneda', value: null }}
-          items={getCurrenciesForCountry(selectedCountry)}
-          onValueChange={(value) => setSelectedCurrency(value)}
-          style={pickerSelectStyles}
-          value={selectedCurrency}
-        />
-      )}
-      <TextInput
-        style={styles.input}
-        placeholder="Ingrese el monto"
-        keyboardType="numeric"
-        value={amount}
-        onChangeText={(text) => setAmount(text)}
+
+      {currencies.length > 0 && (
+        <View>
+           <RNPickerSelect
+  placeholder={{ label: 'Selecciona una moneda...', value: null }}
+  onValueChange={handleCurrencyChange}
+  items={
+    (selectedCountry === 'CO')
+      ? currencies
+        .filter(currency => currency !== 'USD')
+        .map(currency => ({
+          label: currency,
+          value: currency,
+        }))
+      : (selectedCountry === 'PE')
+      ? [
+          {
+            label: 'SOL',
+            value: 'PEN',
+          },
+        ]
+      : currencies.map(currency => ({
+          label: currency,
+          value: currency,
+        }))
+  }
+/>
+
+<Text>City:</Text>
+              <TextInput
+                value={city}
+                onChangeText={setCity}
+                style={styles.input}
+              />
+
+              <Text>Address:</Text>
+              <TextInput
+                value={address}
+                onChangeText={setAddress}
+                style={styles.input}
+              />
+
+              <Text>Post Code:</Text>
+              <TextInput
+                value={postCode}
+                onChangeText={setPostCode}
+                style={styles.input}
+              />
+
+              <Text>Amount:</Text>
+              <TextInput
+                value={amount}
+                onChangeText={setAmount}
+                style={styles.input}
+                
+              />
+
+              <Text>Description:</Text>
+              <TextInput
+                value={description}
+                onChangeText={setDescription}
+                style={styles.input}
+              />
+
+              <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+                <Text style={styles.buttonText}>Submit</Text>
+              </TouchableOpacity>
+
         
-      />
-      <TouchableOpacity style={styles.button} onPress={handleDeposit}>
-        <Text style={styles.buttonText}>Consignar</Text>
-      </TouchableOpacity>
-      <Text style={styles.message}>{message}</Text>
-    
+
+
+
+        </View>
+      )}
+
+
     </View>
+      </View>
     </ImageBackground>
-   
+
   );
 };
 
-const getCurrenciesForCountry = (country: string): { label: string; value: string }[] => {
-  const currencyOptions = [
-    { label: 'USD', value: 'USD' },
-  ];
 
-  if (country === 'Colombia') {
-    return [
-      { label: 'COP', value: 'COP' },
-      ...currencyOptions,
-    ];
-  } else if (country === 'Mexico') {
-    return [
-      { label: 'MXN', value: 'MXN' },
-      ...currencyOptions,
-    ];
-  } else {
-    return [];
-  }
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -126,18 +267,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 30,
-    marginTop:60
-  },
-  scrollViewContainer: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  imageBackground: {
-    flex: 1
+    marginTop: 60,
   },
   input: {
     width: '100%',
@@ -156,10 +286,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
-  },
-  message: {
-    marginTop: 20,
-    color: 'green',
   },
 });
 
@@ -187,5 +313,5 @@ const pickerSelectStyles = StyleSheet.create({
     marginBottom: 10,
   },
 });
-  
+
 export default Abona

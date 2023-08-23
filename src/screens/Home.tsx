@@ -120,8 +120,8 @@ const [refreshing, setRefreshing] = useState(false);
   >
 
    
-   <View style={{marginTop:'48%'}}>
-    <Text style={styles.texto3}>Welcome: {user}</Text>
+   <View style={{marginTop:'60%'}}>
+    <Text style={styles.texto3}>{user}</Text>
     </View>
 
 <View style={styles.contenedor1}>
