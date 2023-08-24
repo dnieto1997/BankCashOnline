@@ -10,7 +10,7 @@ import {THEME as commonTheme} from './theme';
 
 export const COLORS: ThemeColors = {
   // default text color
-  text: 'white',
+  text: '#000000',
 
   // base colors
   /** UI color for #primary */
@@ -163,7 +163,7 @@ export const SIZES: ThemeSizes = {
 
 export const SPACING: ThemeSpacing = {
   /** xs: 4px */
-  xs: SIZES.base * 0.5,
+  xs: SIZES.base * 0.1,
   /** s: 8px */
   s: SIZES.base * 1,
   /** sm: 16px */

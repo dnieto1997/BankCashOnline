@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Linking, Platform,ImageBackground,Alert} from 'react-native';
+import { Linking, Platform,ImageBackground,Alert,View} from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 
 import { useData, useTheme, useTranslation } from '../hooks/';
@@ -119,8 +119,9 @@ const Register = () => {
   return (
 
     <ImageBackground source={require('../assets/images/bg.jpeg')} style={{flex:1}}>
-    <Block safe marginTop={sizes.md}>
-      <Block paddingHorizontal={sizes.s}>
+
+    <Block safe marginTop={sizes.xxl}>
+      <Block paddingHorizontal={sizes.xs}>
         <Block flex={0} style={{ zIndex: 0 }}>
           <Image
             background
@@ -150,7 +151,7 @@ const Register = () => {
           
           </Image>
         </Block>
-        {/* register form */}
+
         <Block
           keyboard
           behavior={!isAndroid ? 'padding' : 'height'}
@@ -258,11 +259,12 @@ const Register = () => {
                   autoCapitalize="none"
                   marginBottom={sizes.m}
                   label='CellPhone'
-                  placeholder='CellPhone'
+                  placeholder='Cell Phone'
                   success={Boolean(registration.phone && isValid.phone)}
                   danger={Boolean(registration.phone && !isValid.phone)}
                   onChangeText={(value) => handleChange({ phone: value })}
                   color={colors.black}
+           
                 />
 
                 
@@ -292,6 +294,7 @@ const Register = () => {
         </Block>
       </Block>
     </Block>
+    
     </ImageBackground>
   );
 };
