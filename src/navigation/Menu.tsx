@@ -159,7 +159,7 @@ const DrawerContent = (
             marginRight={sizes.sm}
           />
           <Block>
-            <Text size={12} semibold>
+            <Text size={12} semibold color={colors.white}>
               {t('app.name')}
             </Text>
             

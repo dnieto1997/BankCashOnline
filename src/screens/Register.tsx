@@ -88,8 +88,26 @@ const Register = () => {
         Alert.alert('Registration Success', 'You have been successfully registered!', [
           { text: 'OK', onPress: () => navigation.navigate('Login') }, // Cambia 'Login' por el nombre correcto de tu pantalla de inicio de sesión
         ]);
-      } else {
-        // Manejo de errores si la API devuelve un error
+      }else if(responseData.statusCode === 400) {
+        // Manejo de errores de validación
+        const errorMessages = responseData.message.map((message) => {
+          // Verificar si el mensaje tiene un número seguido de punto y espacio
+          if (/^\d+\.\s/.test(message)) {
+            return `\u2022 ${message.substring(message.indexOf('. ') + 2)}`; // Quitar el número y el punto
+          } else {
+            return `\u2022 ${message}`;
+          }
+        }).join('\n\n'); // Agregar dos saltos de línea entre los mensajes
+        console.log(errorMessages)
+        Alert.alert('Error', errorMessages, [{ text: 'OK' }]);
+
+
+        
+      } 
+      
+      
+      else {
+       
       }
 
       // Aquí podrías mostrar un mensaje de éxito al usuario o redirigir a otra pantalla.

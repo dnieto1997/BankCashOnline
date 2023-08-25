@@ -7,7 +7,7 @@ import Login from '../screens/Login';
 import Tarjeta from '../screens/Tarjeta';
 import Movimientos from '../screens/Movimientos';
 import Remesas from '../screens/Remesas';
-import Perfil from '../screens/Perfil';
+
 
 
 const Stack = createStackNavigator();

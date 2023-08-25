@@ -1,20 +1,71 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet,ImageBackground } from 'react-native';
+import React, {useCallback, useState,useEffect} from 'react';
+
+import {useData, useTheme, useTranslation} from '../hooks/';
+import {Block, Button, Input, Product} from '../components/';
+import {View,Text,StyleSheet,Image,ImageBackground,TouchableOpacity,TextInput,Alert}
+  from 'react-native'
+
+  import AsyncStorage from '@react-native-async-storage/async-storage'; 
 
 const ChangePasswordScreen = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const[token,setToken] =useState<string>('')
+  
 
-  const handleChangePassword = () => {
-    if (newPassword !== confirmPassword) {
-      setMessage('Las contraseñas no coinciden');
-    } else {
-      // Aquí puedes implementar la lógica para cambiar la contraseña en tu sistema
-      setMessage('Contraseña cambiada exitosamente');
+  useEffect(()=>{
+    const obtenerToken =async () =>{
+    try {
+  const token:any =await AsyncStorage.getItem('token') 
+      setToken(token)
+     
+     
+   
+    } catch (error) {
+      console.log(error)
+      
     }
-  };
+    
+    }
+    obtenerToken()
+    
+    },[])
+
+
+
+
+    const handleChangePassword = async () => {
+      try {
+        const res = await fetch('http://62.72.19.116/api/users/change-password', {
+          method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          currentPassword: `${currentPassword}`,
+          newPassword: `${newPassword}`,
+        }),
+      });
+  
+        const resJson = await res.json();
+        
+        if (resJson.message === 'Invalid Current password') {
+          Alert.alert('Error', 'Invalid Current password', [{ text: 'OK' }]);
+        } else {
+          Alert.alert('Password Changed', 'Your password has been changed successfully!', [{ text: 'OK' }]);
+        }
+
+        
+        
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+
+
 
   return (
     <ImageBackground source={require('../assets/images/bg.jpeg')} style={{flex:1}}>
@@ -34,17 +85,10 @@ const ChangePasswordScreen = () => {
         value={newPassword}
         onChangeText={text => setNewPassword(text)}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Confirm New Password"
-        secureTextEntry
-        value={confirmPassword}
-        onChangeText={text => setConfirmPassword(text)}
-      />
       <TouchableOpacity style={styles.button} onPress={handleChangePassword}>
         <Text style={styles.buttonText}>Change Password</Text>
       </TouchableOpacity>
-      <Text style={styles.message}>{message}</Text>
+     
     </View>
     </ImageBackground>
   );

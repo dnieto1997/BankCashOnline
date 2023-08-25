@@ -78,7 +78,7 @@ const [refreshing, setRefreshing] = useState(false);
       navigation.navigate('Abona')
     }
 
-    const tarjeta = () => {
+/*     const tarjeta = () => {
 
       navigation.navigate('Tarjeta')
     }
@@ -108,7 +108,7 @@ const [refreshing, setRefreshing] = useState(false);
     const envia = () => {
 
       navigation.navigate('Envia')
-    }
+    } */
 
 
   return (
@@ -145,7 +145,7 @@ const [refreshing, setRefreshing] = useState(false);
   </Button>
   </View>
   <View  style={{marginTop:15}}>
-  <Button onPress={() => movimientos()} > 
+  <Button /* onPress={() => movimientos()} */ > 
     <Image source={require('../assets/images/movimientos.png')} style={styles.imagen1}/>
     <Text style={styles.texto4}>movimientos</Text>
   </Button>
@@ -156,13 +156,13 @@ const [refreshing, setRefreshing] = useState(false);
 
 <View style={{margin:10}}>
   <View  >
-  <Button onPress={()=>retira()} > 
+  <Button /* onPress={()=>retira()} */ > 
     <Image source={require('../assets/images/transfiere.png')} style={styles.imagen1}/>
     <Text style={styles.texto4}>transfiere </Text>
   </Button>
   </View>
   <View  style={{marginTop:15}} >
-  <Button onPress={()=>tarjeta()} > 
+  <Button /* onPress={()=>tarjeta()} */ > 
     <Image source={require('../assets/images/tarjeta.png')} style={styles.imagen1}/>
     <Text style={styles.texto4}>tarjeta virtual </Text>
   </Button>
@@ -173,13 +173,13 @@ const [refreshing, setRefreshing] = useState(false);
 
 <View style={{marginTop:10,marginLeft:15}}>
   <View  >
-  <Button onPress={()=>remesas()} > 
+  <Button /* onPress={()=>remesas()} */ > 
     <Image source={require('../assets/images/remesas.png')} style={styles.imagen1}/>
     <Text style={styles.texto4}>Remesas </Text>
   </Button>
   </View>
   <View  style={{marginTop:15}} >
-  <Button onPress={()=>cambio()} > 
+  <Button /* onPress={()=>cambio()} */ > 
     <Image source={require('../assets/images/pago.png')} style={styles.imagen1}/>
     <Text style={styles.texto4}>pagos </Text>
   </Button>

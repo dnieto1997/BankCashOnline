@@ -1,12 +1,12 @@
 import React, { useState, useEffect,useCallback } from 'react'
-import { View, TextInput, TouchableOpacity, StyleSheet, ImageBackground,ToastAndroid,ScrollView } from 'react-native';
+import { View, TextInput, TouchableOpacity, StyleSheet, ImageBackground,ToastAndroid,ScrollView,ActivityIndicator } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Block, Input, Switch, Modal, Text,Checkbox,Button } from '../components/';
 import RNPickerSelect from 'react-native-picker-select';
 import { useData, useTheme, useTranslation } from '../hooks/';
-import * as Clipboard from 'expo-clipboard';
 import * as Linking from 'expo-linking';
+
 
 
 
@@ -15,42 +15,6 @@ import * as Linking from 'expo-linking';
 
 const Abona = () => {
 
-  interface IRegistration {
-    country: string;
-    city: string;
-    address: string;
-    postCode: string;
-    amount: number;
-    description:string;
-
-  }
-  interface IRegistrationValidation {
-    country: boolean;
-    city: boolean;
-    address: boolean;
-    postCode: boolean;
-    amount: boolean;
-    description:boolean;
-    
-  }
-  const [isValid, setIsValid] = useState<IRegistrationValidation>({
-    country: false,
-    city: false,
-    address: false,
-    postCode: false,
-    amount: false,
-    description:false
-    
-    
-  });
-  const [registration, setRegistration] = useState<IRegistration>({
-    country: '',
-    city: '',
-    address: '',
-    postCode: '',
-    amount: 0,
-    description: '',
-  });
 
 
 
@@ -68,6 +32,10 @@ const Abona = () => {
   const [description, setDescription] = useState('');
   const [moneda, setMoneda] = useState('');
   const [checkout, setCheckout] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [isRedirecting, setIsRedirecting] = useState(false);
+
 
 
  
@@ -163,6 +131,10 @@ const Abona = () => {
   };
 
   const handleSubmit = async () => {
+
+    setIsLoading(true);
+    setError(null);
+
     let formattedAmount = parseFloat(amount);
     if (selectedCountry !== 'CO' && selectedCountry !== 'PE') {
       formattedAmount *= 100;
@@ -203,6 +175,9 @@ const Abona = () => {
     
     } catch (error) {
       console.error('Error al realizar la solicitud:', error);
+    } finally {
+      setIsLoading(false); 
+      setIsRedirecting(false); 
     }
 
  
@@ -222,23 +197,76 @@ const Abona = () => {
     <View style={{marginTop:'70%',paddingHorizontal:30}}>
 
 
-   
+    <Text style={{ marginBottom: 8,color:'black',fontWeight:'bold' }}>Country</Text>
 <RNPickerSelect
-  placeholder={{ label: 'Selecciona un país...', value: null }}
+ 
+  placeholder={{ label: 'Select a country...', value: null }}
   value={selectedCountry}
   onValueChange={handleCountryChange}
   items={countries && Array.isArray(countries) ? countries.map((country) => ({
     label: country.countryName,
     value: country.countryCode,
   })) : []}
+  style={{
+    inputIOS: {
+      fontSize: 16,
+      paddingVertical: 12,
+      paddingHorizontal: 10,
+      borderWidth: 1,
+      borderColor: 'gray',
+      borderRadius: 4,
+      color: 'black',
+      paddingRight: 30, // to ensure the text is never behind the icon
+    },
+    inputAndroid: {
+      fontSize: 16,
+      paddingHorizontal: 10,
+      paddingVertical: 8,
+      borderWidth: 0.5,
+      borderColor: 'purple',
+      borderRadius: 8,
+      color: 'black',
+      paddingRight: 30, // to ensure the text is never behind the icon
+    },
+    iconContainer: {
+      top: 10,
+      right: 12,
+    },
+  }}
 
 />
 
 
- 
+<Text style={{ marginBottom: 8,color:'black',fontWeight:'bold' }}>Currency</Text>
      <RNPickerSelect
-placeholder={{ label: 'Selecciona una moneda...', value: null }}
+placeholder={{ label: 'Select Currency...', value: null }}
 onValueChange={handleCurrencyChange}
+style={{
+  inputIOS: {
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'purple',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  iconContainer: {
+    top: 10,
+    right: 12,
+  },
+}}
 
 items={
 (selectedCountry === 'CO')
@@ -324,8 +352,14 @@ items={
                 </Text>
               </Button>
 
-         
+              {isLoading && (
+            <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0, 0, 0, 0.7)', justifyContent: 'center', alignItems: 'center' }}>
+              <ActivityIndicator size="large" color="green" />
+            </View>
+          )}
+
         </View>
+      
 
     </ScrollView>
         
